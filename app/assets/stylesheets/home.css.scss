@@ -1,0 +1,65 @@
+// Place all the styles related to the Tweets controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#new_tweet textarea {
+    width: 100%;
+}
+
+#new_tweet input[type='submit'], #new_tweet button[type='submit']{
+    float:right;
+}
+
+.timeline {
+    margin: 0;
+    padding: 0;
+}
+
+.timeline li:first-of-type {
+    border-top: 1px dashed #D2DADA;
+}
+
+.timeline li {
+    list-style : none;
+    padding: 10px 0;
+    margin: 0;
+    background-color: #fff;
+    border-bottom: 1px dashed #D2DADA;
+}
+
+.timeline li img.avatar {
+    height: 64px;
+    width: 64px;
+}
+
+.timeline li:hover {
+    background-color: #F7F7F7;
+}
+
+.timeline .fullname {
+    font-size: 14px;
+}
+
+.username, .time {
+    font-size: 13px;
+    color: #8899a6;
+    font-weight: normal;
+       
+}
+
+.timeline .media-footer a {
+    font-size: 13px;
+    color: #8899a6;
+    font-weight: normal;
+    margin-left: 5px;
+}
+
+.timeline .media-footer {
+    opacity: .6;
+}
+
+.timeline .media-footer:hover {
+    opacity: 1;
+}
+
+
