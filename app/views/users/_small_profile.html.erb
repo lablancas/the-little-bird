@@ -1,0 +1,8 @@
+    <div class="panel-body">
+        <%= image_tag @current_user.gravatar_url(:size => 40)%> 
+        <span class="fullname"><%= @current_user.name %></span>
+        <span class="username">@<%= @current_user.username %></span>
+        <span class="badge"><%= @current_user.tweets.count %> Tweets</span>
+        <span class="badge"><%= @current_user.followings.count %> Followings</span>
+        <span class="badge"><%= @current_user.followers.count %> Followers</span>
+    </div>

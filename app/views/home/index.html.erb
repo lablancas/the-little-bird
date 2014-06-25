@@ -1,114 +1,13 @@
 <% if user_signed_in? %>
 <div class="user-profile col-md-3 panel panel-default">
-    <div class="panel-body">
-        <%= image_tag @current_user.gravatar_url(:size => 40)%> 
-        <span class="fullname"><%= @current_user.name %></span>
-        <span class="username">@<%= @current_user.username %></span>
-        <span class="badge"><%= @current_user.tweets.count %> Tweets</span>
-        <span class="badge"><%= @current_user.followings.count %> Followings</span>
-        <span class="badge"><%= @current_user.followers.count %> Followers</span>
-    </div>
+    <%= render "users/small_profile" %>
 </div>
 
 <div class="col-md-5">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <%= form_for Tweet.new do |t| %>
-            <%= t.text_area :message %>
-            <%= t.submit "Post", class: "btn" %>
-            <% end %>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Tweets</h3>
-        </div>
-        <div class="panel-body">
-            <ul class="timeline media-list">
-                <% @tweets.each do |tweet| %>
-                <li class="media">
-                    <a class="pull-left" href="#">
-                    <%= image_tag tweet.user.gravatar_url(:size => 64) %>
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading fullname"><%= h tweet.user.name %> 
-                            <span class="username">@<%= h tweet.user.username %></span>
-                        </h4>
-                        <p><%= h tweet.message %></p>
-                        <div class="media-footer">
-                            
-                            <span class="time"><%= distance_of_time_in_words_to_now(tweet.created_at) %> ago</span>
-                            
-                            <!--
-                            <a href="#"> <span class="glyphicon glyphicon-comment"></span>
-                            <b>Reply</b>
-                            </a>
-                            -->
-                            
-                            <% if tweet.user == @current_user %>
-                            <%= link_to({controller: "tweets", action: "destroy", id: tweet.id}, {method: :delete}) do %>
-                            <span class="glyphicon glyphicon-trash"></span>
-                            <b>Delete</b>
-                            <% end %>
-                            <% end %>
-                            
-                            <% if @current_user.is_retweet?(tweet) %>
-                            <span class="glyphicon glyphicon-retweet"></span>
-                            <b>Retweeted</b>
-                            <% elsif tweet.user != @current_user %>
-                            <%= link_to({controller: "tweets", action: "retweet", id: tweet.id}) do %>
-                            <span class="glyphicon glyphicon-retweet"></span>
-                            <b>Retweet</b>
-                            <% end %>
-                            <% end %>
-                            
-                            <% if @current_user.is_favorited?(tweet) %>
-                            <%= link_to({controller: "tweets", action: "unfavorite", id: tweet.id}) do %>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <b>Favorited</b>
-                            <% end %>
-                            <% elsif tweet.user != @current_user %>
-                            <%= link_to({controller: "tweets", action: "favorite", id: tweet.id}) do %>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            <b>Favorite</b>
-                            <% end %>
-                            <% end %>
-                        </div>
-                    </div>
-                </li>
-                <% end %>
-            </ul>
-        </div>
-    </div>
+    <%= render "tweets/timeline" %>
 </div>
 
-<div class="follow-suggestions col-md-4">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Who to Follow</h3>
-        </div>
-        <div class="panel-body">
-            <ul class="users list-unstyled">
-                <% @random_users.each do |user| %>
-                <li><%= image_tag user.gravatar_url(:size => 64) %>
-                    <%= user.name %> <span class="username">@<%= user.username %></span>
-                    <% if @current_user.is_following?(user) %>
-                    <%= link_to({controller: "users", action: "unfollow", id: user.id}, {method: :delete, class: "btn btn-primary btn-xs"}) do %>
-                    <b>Unfollow</b><span class="glyphicon glyphicon-ok"></span>
-                    <% end %>
-                    <% else %> 
-                    <%= link_to({controller: "users", action: "follow", id: user.id}, {class: "btn btn-primary btn-xs"}) do %>
-                    <b>Follow</b><span class="glyphicon glyphicon-plus"></span>
-                    <% end %>
-                    <% end %>
-                    <span class="badge"><%= user.tweets.count %> Tweets</span>
-                    
-                    <span class="badge"><%= user.followings.count %> Followings</span>
-                    <span class="badge"><%= user.followers.count %> Followers</span>
-                </li>
-                <% end %>    
-            </ul>
-        </div>
-    </div>
+<div class="follow-suggestions col-md-4">    
+    <%= render "users/follow_suggestions" %>
 </div>
 <% end %>

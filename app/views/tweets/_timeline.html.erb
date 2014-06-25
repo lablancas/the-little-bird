@@ -1,0 +1,70 @@
+    
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <%= form_for Tweet.new do |t| %>
+            <%= t.text_area :message %>
+            <%= t.submit "Post", class: "btn" %>
+            <% end %>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Tweets</h3>
+        </div>
+        <div class="panel-body">
+            <ul class="timeline media-list">
+                <% @tweets.each do |tweet| %>
+                <li class="media">
+                    <a class="pull-left" href="#">
+                    <%= image_tag tweet.user.gravatar_url(:size => 64) %>
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading fullname"><%= h tweet.user.name %> 
+                            <span class="username">@<%= h tweet.user.username %></span>
+                        </h4>
+                        <p><%= h tweet.message %></p>
+                        <div class="media-footer">
+                            
+                            <span class="time"><%= distance_of_time_in_words_to_now(tweet.created_at) %> ago</span>
+                            
+                            <!--
+                            <a href="#"> <span class="glyphicon glyphicon-comment"></span>
+                            <b>Reply</b>
+                            </a>
+                            -->
+                            
+                            <% if tweet.user == @current_user %>
+                            <%= link_to({controller: "tweets", action: "destroy", id: tweet.id}, {method: :delete}) do %>
+                            <span class="glyphicon glyphicon-trash"></span>
+                            <b>Delete</b>
+                            <% end %>
+                            <% end %>
+                            
+                            <% if @current_user.is_retweet?(tweet) %>
+                            <span class="glyphicon glyphicon-retweet"></span>
+                            <b>Retweeted</b>
+                            <% elsif tweet.user != @current_user %>
+                            <%= link_to({controller: "tweets", action: "retweet", id: tweet.id}) do %>
+                            <span class="glyphicon glyphicon-retweet"></span>
+                            <b>Retweet</b>
+                            <% end %>
+                            <% end %>
+                            
+                            <% if @current_user.is_favorited?(tweet) %>
+                            <%= link_to({controller: "tweets", action: "unfavorite", id: tweet.id}) do %>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <b>Favorited</b>
+                            <% end %>
+                            <% elsif tweet.user != @current_user %>
+                            <%= link_to({controller: "tweets", action: "favorite", id: tweet.id}) do %>
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            <b>Favorite</b>
+                            <% end %>
+                            <% end %>
+                        </div>
+                    </div>
+                </li>
+                <% end %>
+            </ul>
+        </div>
+    </div>
