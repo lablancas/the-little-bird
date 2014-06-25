@@ -14,7 +14,7 @@ class TweetsController < ApplicationController
   end
     
   def retweet
-      # TODO
+      current_user.retweet(Tweet.find(params[:id]))
       redirect_to root_path
   end
     

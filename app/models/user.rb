@@ -29,6 +29,14 @@ class User < ActiveRecord::Base
         end
     end
     
+    def retweet(tweet)
+        retweet = tweets.build(:message => tweet.message, :original_tweet_id => tweet.id)
+        retweet.created_at = Time.now # HACK
+        if !retweet.save
+            logger.debug 'An error occurred while trying to retweet Tweet '#{tweet.id}' for User '#{self.id}''
+        end
+    end
+    
     def unfollow(user)
         following = followings.where("followee_id = ?", user.id)
         if !following.delete_all

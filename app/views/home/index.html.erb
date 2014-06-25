@@ -51,17 +51,17 @@
                             <b>Delete</b>
                             <% end %>
                             <% end %>
-                            <!--
-                                <% if @current_user.is_retweet?(tweet) %>
-                                    <span class="glyphicon glyphicon-retweet"></span>
-                                    <b>Retweeted</b>
-                                <% else %>
-                                    <%= link_to({controller: "tweets", action: "retweet", id: tweet.id}) do %>
-                                      <span class="glyphicon glyphicon-retweet"></span>
-                                      <b>Retweet</b>
-                                    <% end %>
-                                <% end %>
-                                -->
+                            
+                            <% if @current_user.is_retweet?(tweet) %>
+                            <span class="glyphicon glyphicon-retweet"></span>
+                            <b>Retweeted</b>
+                            <% elsif tweet.user != @current_user %>
+                            <%= link_to({controller: "tweets", action: "retweet", id: tweet.id}) do %>
+                            <span class="glyphicon glyphicon-retweet"></span>
+                            <b>Retweet</b>
+                            <% end %>
+                            <% end %>
+                            
                             <% if @current_user.is_favorited?(tweet) %>
                             <%= link_to({controller: "tweets", action: "unfavorite", id: tweet.id}) do %>
                             <span class="glyphicon glyphicon-star"></span>
@@ -93,11 +93,11 @@
                 <li><%= image_tag user.gravatar_url(:size => 64) %>
                     <%= user.name %> <span class="username">@<%= user.username %></span>
                     <% if @current_user.is_following?(user) %>
-                    <%= link_to({controller: "users", action: "unfollow", id: user.id}, {method: :delete, class: "btn btn-primary"}) do %>
+                    <%= link_to({controller: "users", action: "unfollow", id: user.id}, {method: :delete, class: "btn btn-primary btn-xs"}) do %>
                     <b>Unfollow</b><span class="glyphicon glyphicon-ok"></span>
                     <% end %>
-                    <% else %>
-                    <%= link_to({controller: "users", action: "follow", id: user.id}, {class: "btn btn-primary"}) do %>
+                    <% else %> 
+                    <%= link_to({controller: "users", action: "follow", id: user.id}, {class: "btn btn-primary btn-xs"}) do %>
                     <b>Follow</b><span class="glyphicon glyphicon-plus"></span>
                     <% end %>
                     <% end %>
