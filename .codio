@@ -5,7 +5,7 @@
   "commands": {
         "Node version": "node --version",
       "Start rails": "rails server",
-      "Install": "parts install sqlite3; gem install rails"
+      "Install": "parts install sqlite3; gem install rails; bundle install; rake db:migrate; rake db:seed;"
   },
 
 // Preview button configuration
